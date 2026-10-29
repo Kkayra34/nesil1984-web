@@ -35,7 +35,7 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [x] Kategoriler yüklendi (`npm run db:seed`)
 - [ ] **Senin yapacağın:** `npm run admin:create` ile müşterinin admin hesabını oluştur
 - [x] Ürün ekle/düzenle/sil, ölçü seçenekleri, fotoğraf yükleme (Cloudinary)
-- [ ] Kendin Tasarla parça yönetimi (Sonnet ile)
+- [x] Kendin Tasarla parça yönetimi (`/admin/parcalar`)
 - Not: Prisma'nın yeni sürümü Windows'ta kurulamadığı için Drizzle seçildi
 
 ## Faz 4: Ürün kataloğu
@@ -46,11 +46,14 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - Not: Online sipariş Faz 6'ya kadar yok; ürün sayfasında WhatsApp / iletişim düğmesi var. Kids ve Erkek için ayrı sayfa yerine kategori filtresi kullanıldı
 
 ## Faz 5: Kendin Tasarla
-- [ ] Parça yönetimi (admin): zincir, charm, ara parça, malzeme
-- [ ] Sihirbaz arayüzü ve canlı önizleme (katmanlı görsel)
-- [ ] Sunucuda fiyat hesabı (tarayıcıdaki fiyata güvenilmez)
-- [ ] Animasyonlu yerleşme efektleri
-- [ ] İlk sürüm: yalnızca charm kolye
+- [x] Parça yönetimi (admin): zincir, charm, ara parça; şeffaf PNG önizleme görseli. Malzeme = gram fiyatı girilmiş ayarlar
+- [x] Sihirbaz arayüzü (Zincir → Charm'lar → Ayar) ve canlı önizleme (katmanlı görsel, görsel yoksa altın çizim)
+- [x] Sunucuda fiyat hesabı: tarayıcı sadece parça numarası gönderir, fiyat veritabanındaki parçalardan hesaplanır
+- [x] Animasyonlu yerleşme efektleri (zincir çizilir, charm'lar yaylanarak düşer ve sallanır, diğerleri kayarak yer açar)
+- [x] İlk sürüm: yalnızca charm kolye
+- [ ] **Müşteriden bekleniyor:** şeffaf zincir/charm görselleri (zincir 1200×880, sitedeki eğriyi izlemeli)
+- [ ] **Karar:** sihirbazda hangi ayarlar sunulsun (şu an gram fiyatı girilmiş hepsi, 22 ayar ve gümüş dahil)
+- Not: Tasarım adres çubuğunda (`?zincir=1&parca=2-3-2&ayar=K14`), paylaşılabilir. Sipariş Faz 6'ya kadar WhatsApp/iletişim ile. 13 yeni test
 
 ## Faz 6: Sepet, ödeme, sipariş
 - [ ] Sepet ve teslimat seçimi (kargo / mağazadan teslim)

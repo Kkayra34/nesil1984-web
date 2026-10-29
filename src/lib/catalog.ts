@@ -17,7 +17,7 @@ const collectionBySlug: Record<string, CollectionKey> = {
 
 export const collectionFromSlug = (slug: string) => collectionBySlug[slug] ?? null;
 
-async function getRates(): Promise<Rates> {
+export async function getRates(): Promise<Rates> {
   const rows = await db.query.metalRates.findMany();
   return Object.fromEntries(rows.map((r) => [r.metal, r.pricePerGramKurus]));
 }
