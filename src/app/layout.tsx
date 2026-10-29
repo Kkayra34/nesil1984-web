@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Bodoni_Moda, Cormorant_Garamond, Jost } from "next/font/google";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import { Providers } from "@/components/providers";
 import "./globals.css";
+
+// Marka yazısı için: logodaki gibi yüksek kontrastlı ve rakamları büyük harf boyunda.
+const bodoni = Bodoni_Moda({
+  variable: "--font-bodoni",
+  subsets: ["latin", "latin-ext"],
+  axes: ["opsz"],
+});
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -25,10 +35,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="tr"
-      className={`${cormorant.variable} ${jost.variable} h-full`}
+      className={`${cormorant.variable} ${jost.variable} ${bodoni.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <div className="flex flex-1 flex-col">{children}</div>
+          <Footer />
+          <WhatsAppButton />
+        </Providers>
       </body>
     </html>
   );

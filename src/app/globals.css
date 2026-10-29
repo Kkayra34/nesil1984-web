@@ -19,6 +19,7 @@
 
   --font-display: var(--font-cormorant);
   --font-sans: var(--font-jost);
+  --font-wordmark: var(--font-bodoni);
 
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -43,6 +44,26 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Sonsuz kayan yazı bandı */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
 
 ::selection {

@@ -17,11 +17,15 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - Not: `cacheComponents` kapatıldı (veritabanlı sayfalarda gereksiz karmaşıklık). Marka adı Faz 2'de müşterinin logo dosyasıyla gösterilecek (Cormorant'ın eski stil rakamları "1984"ü logodan farklı gösteriyor)
 
 ## Faz 2: Vitrin sayfaları
-- [ ] Ana sayfa (hero animasyonu, koleksiyonlar, güven bandı)
-- [ ] Biz Kimiz, Atölyeden Size, İletişim (harita, WhatsApp)
-- [ ] Koleksiyon sayfaları: Daily, Signature, Heritage
-- [ ] Mobil uyum kontrolü
+- [x] Header (duyuru bandı, kaydırınca küçülen menü, animasyonlu mobil menü), footer, sayfa geçişleri
+- [x] Ana sayfa: kendini çizen zincir + düşen charm'lar hero animasyonu, kayan yazı bandı, koleksiyonlar, Kendin Tasarla tanıtımı, hikâye, kategoriler, atölye, güven bandı
+- [x] Biz Kimiz, Atölye, İletişim (Google harita, WhatsApp butonu numara girilince görünür)
+- [x] Koleksiyonlar sayfası ve Daily / Signature / Heritage sayfaları
+- [x] Ürünler, Kendin Tasarla, Kişiye Özel için geçici "hazırlanıyor" sayfaları
+- [x] Mobil uyum kontrolü (375px, yatay taşma yok)
+- [ ] **Müşteriden bekleniyor:** adres, telefon, WhatsApp, e-posta, çalışma saatleri, Instagram (`src/lib/site.ts`)
 - [ ] **Müşteri tasarım onayı** (2. ödeme)
+- Not: Görseller şimdilik altın çizgili takı illüstrasyonları (`ArtFrame`). Fotoğraflar gelince bu bileşen değiştirilecek. Marka yazısı Bodoni Moda; logo dosyası gelince değiştirilecek
 
 ## Faz 3: Veri modeli ve yönetim paneli
 - [ ] PostgreSQL + Prisma: ürün, kategori, parça (zincir/charm), sipariş, kur
