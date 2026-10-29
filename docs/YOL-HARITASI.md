@@ -93,5 +93,6 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [ ] **Analitik/reklam aracı eklenirse:** Şu an yalnızca sepet için tarayıcı depolaması kullanıldığından çerez onay penceresi yok (gizlilik sayfası bunu açıklıyor). Analitik ya da reklam aracı eklenirse çerez onay banner'ı da eklenecek ve gizlilik metni güncellenecek
 
 ## Notlar
+- Müşteriyle konuşulacak her şey: `docs/MUSTERIYE-SORULACAKLAR.md`
 - Gizli anahtarlar `.env` dosyasında, değerler Bitwarden'da. Git'e girmez.
 - Kapsam dışı: fotoğraf çekimi, içerik yazımı, 3D önizleme, mobil uygulama, pazaryeri ve e-fatura entegrasyonu.
