@@ -77,7 +77,7 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [ ] **Canlıda şart:** `NEXT_PUBLIC_SITE_URL` gerçek alan adına ayarlanmalı (sitemap ve paylaşım kartları buna bakar)
 
 ## Faz 8: Test ve yayın
-- [ ] Uçtan uca test (sipariş, ödeme, iade akışı). Yapılan: admin sipariş listesi/detay/iptal ve özel talepler ekranı denendi, ödenmemiş siparişin geri açılıp ödemesiz gönderilmesi engellendi. Kalan: gerçek PayTR ödemesi, gerçek e-posta, telefon ve farklı tarayıcılar
+- [ ] Uçtan uca test (sipariş, ödeme, iade akışı). Yapılan: admin sipariş listesi/detay/iptal ve özel talepler ekranı denendi, ödenmemiş siparişin geri açılıp ödemesiz gönderilmesi engellendi. Mobil (375px) taşma kontrolü 12 sayfada temiz. Kalan: gerçek PayTR ödemesi, gerçek e-posta, gerçek telefonda ve farklı tarayıcılarda (Safari) deneme
 - [ ] Hosting ve veritabanı kurulumu, alan adı bağlama
 - [ ] Müşteriye yönetim paneli eğitimi
 - [ ] Yayına alma (3. ödeme)
