@@ -22,6 +22,8 @@ export async function POST(request: Request) {
     const order = await markOrderPaid(notification.merchantOid);
     // E-postalar cevaptan sonra gider: PayTR beklemesin, e-posta hatası bildirimi bozmasın.
     if (order) after(() => sendOrderPaidEmails(order.id));
+    // order yoksa: tekrar gelen bildirim ya da sipariş ödeme sırasında iptal edilmiş olabilir (PayTR panelinden kontrol edilmeli).
+    else console.warn(`PayTR başarılı bildirimi sipariş durumunu değiştirmedi (${notification.merchantOid}): tekrar bildirim ya da iptal edilmiş sipariş`);
   } else {
     // Başarısız ödeme: sipariş "ödeme bekleniyor"da kalır, müşteri yeniden deneyebilir.
     console.info(`PayTR ödeme başarısız (${notification.merchantOid}): ${notification.failedReason ?? "-"}`);

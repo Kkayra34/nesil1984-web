@@ -97,7 +97,7 @@ export default async function OrderPage({ params }: PageProps<"/admin/siparisler
           </section>
         </div>
 
-        <StatusForm id={o.id} status={o.status} />
+        <StatusForm id={o.id} status={o.status} paid={!!o.paidAt} />
       </div>
     </div>
   );

@@ -63,7 +63,8 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [x] Admin: sipariş listesi, detay ve durum güncelleme (müşteriye e-posta)
 - [ ] **Müşteriden bekleniyor:** PayTR mağaza anahtarları; kargo ücreti kararı (şu an ücretsiz, `src/lib/site.ts`)
 - [ ] **Senin yapacağın:** Resend hesabı + alan adı doğrulama, `RESEND_API_KEY` / `EMAIL_FROM` / `SHOP_EMAIL`
-- [ ] PayTR test modunda uçtan uca deneme (site yayında olmalı: bildirimi PayTR'ın sunucusu gönderir). Alan adları/imza sırası PayTR'ın güncel dokümanıyla karşılaştırılmalı
+- [x] PayTR alan adları, imza sırası, bildirim cevabı güncel dokümanla karşılaştırıldı (uyumlu); uzunluk sınırları eklendi
+- [ ] PayTR test modunda uçtan uca deneme (site yayında olmalı: bildirimi PayTR'ın sunucusu gönderir). PayTR panelinde "Bildirim URL" `https://<alan-adı>/api/paytr/bildirim` olarak tanımlanmalı. Not: PayTR e-postada Türkçe karakter kabul etmiyor; test sırasında Türkçe karakterli e-posta denenmeli
 - Not: Ödemede altın fiyatı değiştiyse sipariş kesilmez, yeni tutar gösterilip tekrar onay istenir. Sipariş sadece imzalı PayTR bildirimiyle "ödendi" olur. 20 yeni test
 
 ## Faz 7: Kişiye özel tasarım, yasal, SEO
@@ -76,7 +77,7 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [ ] **Canlıda şart:** `NEXT_PUBLIC_SITE_URL` gerçek alan adına ayarlanmalı (sitemap ve paylaşım kartları buna bakar)
 
 ## Faz 8: Test ve yayın
-- [ ] Uçtan uca test (sipariş, ödeme, iade akışı)
+- [ ] Uçtan uca test (sipariş, ödeme, iade akışı). Yapılan: admin sipariş listesi/detay/iptal ve özel talepler ekranı denendi, ödenmemiş siparişin geri açılıp ödemesiz gönderilmesi engellendi. Kalan: gerçek PayTR ödemesi, gerçek e-posta, telefon ve farklı tarayıcılar
 - [ ] Hosting ve veritabanı kurulumu, alan adı bağlama
 - [ ] Müşteriye yönetim paneli eğitimi
 - [ ] Yayına alma (3. ödeme)

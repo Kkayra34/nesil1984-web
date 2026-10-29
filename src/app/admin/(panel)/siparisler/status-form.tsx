@@ -4,9 +4,10 @@ import { useActionState } from "react";
 import { ADMIN_SETTABLE, ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/order-status";
 import { updateOrderStatus } from "./actions";
 
-export function StatusForm({ id, status }: { id: number; status: OrderStatus }) {
+export function StatusForm({ id, status, paid }: { id: number; status: OrderStatus; paid: boolean }) {
   const [state, action, pending] = useActionState(updateOrderStatus, undefined);
-  const options = status === "PENDING_PAYMENT" ? (["CANCELLED"] as OrderStatus[]) : ADMIN_SETTABLE;
+  const unpaid = status === "PENDING_PAYMENT" || (status === "CANCELLED" && !paid);
+  const options = unpaid ? (["CANCELLED"] as OrderStatus[]) : ADMIN_SETTABLE;
 
   return (
     <form action={action} className="space-y-4 bg-krem-50 p-6">

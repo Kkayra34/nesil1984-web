@@ -19,10 +19,12 @@ export async function updateOrderStatus(_: FormState, formData: FormData): Promi
   const status = ADMIN_SETTABLE.find((s) => s === formData.get("status"));
   if (!Number.isInteger(id) || !status) return { error: "Geçersiz durum." };
 
-  const current = await db.query.orders.findFirst({ where: eq(orders.id, id), columns: { status: true } });
+  const current = await db.query.orders.findFirst({ where: eq(orders.id, id), columns: { status: true, paidAt: true } });
   if (!current) return { error: "Sipariş bulunamadı." };
   // Ödenmemiş sipariş ancak iptal edilebilir: hazırlanıyor/kargoda diye işaretlenip ödemesiz gönderilmesin.
-  if (current.status === "PENDING_PAYMENT" && status !== "CANCELLED") {
+  // İptal edilmiş ama hiç ödenmemiş sipariş de geri açılamaz.
+  const unpaid = current.status === "PENDING_PAYMENT" || (current.status === "CANCELLED" && !current.paidAt);
+  if (unpaid && status !== "CANCELLED") {
     return { error: "Ödemesi alınmamış sipariş sadece iptal edilebilir." };
   }
   if (current.status === status) return { success: "Durum zaten bu." };
