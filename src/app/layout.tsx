@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda, Cormorant_Garamond, Jost } from "next/font/google";
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
-import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 
@@ -38,12 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cormorant.variable} ${jost.variable} ${bodoni.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>
-          <Header />
-          <div className="flex flex-1 flex-col">{children}</div>
-          <Footer />
-          <WhatsAppButton />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

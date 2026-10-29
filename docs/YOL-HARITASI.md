@@ -28,11 +28,15 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - Not: Görseller şimdilik altın çizgili takı illüstrasyonları (`ArtFrame`). Fotoğraflar gelince bu bileşen değiştirilecek. Marka yazısı Bodoni Moda; logo dosyası gelince değiştirilecek
 
 ## Faz 3: Veri modeli ve yönetim paneli
-- [ ] PostgreSQL + Prisma: ürün, kategori, parça (zincir/charm), sipariş, kur
-- [ ] Admin girişi
-- [ ] Ürün ekle/düzenle/sil, fotoğraf yükleme
-- [ ] Altın/gümüş gram fiyatı girişi (8/14/18/22 ayar, 925)
-- [ ] Fiyat motoru: `gram × ayar fiyatı + işçilik + taş`
+- [x] Neon PostgreSQL + Drizzle ORM: 10 tablo (ürün, ölçü, görsel, kategori, parça, sipariş, sipariş kalemi, özel talep, kur, admin). Para kuruş, ağırlık miligram (tam sayı)
+- [x] Fiyat motoru `src/lib/pricing.ts`: `gram × ayar fiyatı + işçilik + taş`, sabit fiyat modu, Kendin Tasarla toplamı, Türkçe tutar okuma ("37.170" = binlik). 13 test
+- [x] Admin girişi: scrypt şifre, imzalı çerez, proxy + her işlemde `requireAdmin()`. 4 test
+- [x] Altın kuru ekranı ve genel bakış paneli (uçtan uca denendi)
+- [x] Kategoriler yüklendi (`npm run db:seed`)
+- [ ] **Senin yapacağın:** `npm run admin:create` ile müşterinin admin hesabını oluştur
+- [ ] Ürün ekle/düzenle/sil, ölçü seçenekleri, fotoğraf yükleme (Sonnet ile)
+- [ ] Kendin Tasarla parça yönetimi (Sonnet ile)
+- Not: Prisma'nın yeni sürümü Windows'ta kurulamadığı için Drizzle seçildi
 
 ## Faz 4: Ürün kataloğu
 - [ ] Kategoriler (Kids ve Erkek ayrı vitrin dahil)
