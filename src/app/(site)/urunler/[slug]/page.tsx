@@ -10,7 +10,7 @@ import { Container } from "@/components/ui/container";
 import { getProduct } from "@/lib/catalog";
 import { formatGram, METAL_LABELS } from "@/lib/pricing";
 import { colorLabel, stoneLabel } from "@/lib/product-form";
-import { categories } from "@/lib/site";
+import { categories, siteUrl } from "@/lib/site";
 
 const trust = [
   { icon: Gem, label: "Kendi atölyemizde üretim" },
@@ -25,6 +25,7 @@ export async function generateMetadata(props: PageProps<"/urunler/[slug]">): Pro
   return {
     title: `${p.name} | NESİL1984`,
     description: p.description.slice(0, 160) || undefined,
+    alternates: { canonical: `/urunler/${p.slug}` },
     openGraph: p.images[0] ? { images: [p.images[0].url] } : undefined,
   };
 }
@@ -44,8 +45,31 @@ export default async function ProductPage(props: PageProps<"/urunler/[slug]">) {
     ...(p.stones.length ? ([["Taş", p.stones.map(stoneLabel).join(", ")]] as [string, string][]) : []),
   ];
 
+  // Arama motorları için ürün verisi. Fiyat hesaplanamıyorsa (kur yok) teklif satırı eklenmez.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.name,
+    sku: p.code,
+    description: p.description || undefined,
+    image: p.images.map((i) => i.url),
+    brand: { "@type": "Brand", name: "NESİL1984" },
+    ...(p.priceKurus
+      ? {
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "TRY",
+            price: (p.priceKurus / 100).toFixed(2),
+            availability: "https://schema.org/InStock",
+            url: `${siteUrl}/urunler/${p.slug}`,
+          },
+        }
+      : {}),
+  };
+
   return (
     <main className="bg-krem-50 py-12 md:py-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <Container>
         <nav className="mb-8 text-xs uppercase tracking-[0.2em] text-bordo-900/50">
           <Link href="/urunler" className="hover:text-bordo-800">

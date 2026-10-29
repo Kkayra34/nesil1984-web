@@ -198,7 +198,18 @@ export function CheckoutForm({ paymentReady }: { paymentReady: boolean }) {
         <label className="mt-6 flex gap-3 text-xs leading-relaxed text-bordo-900/70">
           <input type="checkbox" name="terms" required className="mt-0.5" defaultChecked={val("terms") === "on"} />
           <span>
-            Ön bilgilendirme formunu ve mesafeli satış sözleşmesini okudum, kabul ediyorum.
+            <Link href="/yasal/on-bilgilendirme-formu" target="_blank" className="underline">
+              Ön bilgilendirme formunu
+            </Link>{" "}
+            ve{" "}
+            <Link href="/yasal/mesafeli-satis-sozlesmesi" target="_blank" className="underline">
+              mesafeli satış sözleşmesini
+            </Link>{" "}
+            okudum, kabul ediyorum. İade koşulları için{" "}
+            <Link href="/yasal/iade-ve-cayma" target="_blank" className="underline">
+              buraya
+            </Link>{" "}
+            bakabilirsin.
           </span>
         </label>
 

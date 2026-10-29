@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda, Cormorant_Garamond, Jost } from "next/font/google";
 import { Providers } from "@/components/providers";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 // Marka yazısı için: logodaki gibi yüksek kontrastlı ve rakamları büyük harf boyunda.
@@ -23,9 +24,11 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "NESİL1984 | Atelier & Jewelry",
   description:
     "Üç nesildir süren Şişli atölyemizden altın, pırlanta ve kişiye özel tasarım mücevherler. Köklerden geleceğe.",
+  openGraph: { siteName: "NESİL1984", locale: "tr_TR", type: "website" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

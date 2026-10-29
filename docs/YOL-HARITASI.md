@@ -67,9 +67,13 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - Not: Ödemede altın fiyatı değiştiyse sipariş kesilmez, yeni tutar gösterilip tekrar onay istenir. Sipariş sadece imzalı PayTR bildirimiyle "ödendi" olur. 20 yeni test
 
 ## Faz 7: Kişiye özel tasarım, yasal, SEO
-- [ ] Kişiye özel tasarım talep formu (admin'e düşer)
-- [ ] KVKK, mesafeli satış, iade/cayma, çerez onayı
-- [ ] SEO ayarları, sitemap, performans optimizasyonu
+- [x] Kişiye özel tasarım talep formu `/kisiye-ozel` (bot tuzağı alanı, `SHOP_EMAIL` varsa e-posta bildirimi) ve admin `/admin/talepler` (durum + iç not). 9 yeni test
+- [x] Yasal metin TASLAKLARI `/yasal/...`: mesafeli satış sözleşmesi, ön bilgilendirme formu, iade ve cayma, KVKK aydınlatma, gizlilik ve çerezler. Footer, ödeme onay kutusu ve talep formundan bağlı. Metinler `src/lib/legal.ts`'de
+- [ ] **Canlıdan önce şart:** satıcı bilgileri (ticari unvan, vergi dairesi/no, adres, telefon, e-posta) `src/lib/site.ts`'e girilecek; metinler avukat/mali müşavire okutulacak (özellikle kişiye özel ve Kendin Tasarla ürünlerde cayma hakkının istisnası)
+- Not: Şu an yalnızca zorunlu depolama (sepet) kullanıldığı için çerez onay penceresi yok; analitik/reklam aracı eklenirse banner da eklenecek
+- [x] SEO: `/sitemap.xml` (ürünler veritabanından), `/robots.txt` (admin, sepet, ödeme kapalı), `metadataBase`, ürün sayfasında canonical + schema.org Ürün verisi
+- [ ] Performans ölçümü (Lighthouse) canlı sitede yapılacak (Faz 8)
+- [ ] **Canlıda şart:** `NEXT_PUBLIC_SITE_URL` gerçek alan adına ayarlanmalı (sitemap ve paylaşım kartları buna bakar)
 
 ## Faz 8: Test ve yayın
 - [ ] Uçtan uca test (sipariş, ödeme, iade akışı)
@@ -82,7 +86,10 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [ ] **Müşteriden:** PayTR mağaza anahtarları (`PAYTR_MERCHANT_ID`, `PAYTR_MERCHANT_KEY`, `PAYTR_MERCHANT_SALT`). Değerler Bitwarden'a
 - [ ] **Müşteriden:** Kargo ücreti kararı. Şimdilik ücretsiz; `src/lib/site.ts` içindeki `shipping` ile değiştirilir
 - [ ] **Senin yapacağın:** Resend hesabı + alan adı doğrulama, `.env`'e `RESEND_API_KEY`, `EMAIL_FROM`, `SHOP_EMAIL` (değerler Bitwarden'a). Bunlar yokken e-postalar gönderilmez, sadece sunucu kaydına yazılır
-- [ ] **Faz 7, canlıdan önce şart:** Mesafeli satış sözleşmesi ve ön bilgilendirme formu metinleri. Ödeme formundaki onay kutusu bunlara atıf yapıyor; metinler yazılınca kutuya bağlantı eklenecek
+- [x] Mesafeli satış sözleşmesi ve ön bilgilendirme formu taslakları yazıldı, ödeme onay kutusuna bağlandı
+- [ ] **Müşteriden, canlıdan önce şart:** Satıcı bilgileri (ticari unvan, vergi dairesi ve no, adres, telefon, e-posta) alınıp `src/lib/site.ts` içindeki `legal` ve `contact` alanlarına girilecek. Girilene kadar yasal metinlerde `[ticari unvan]` gibi boşluklar görünür (geliştirme modunda sayfa üstünde uyarı çıkar, canlıda çıkmaz)
+- [ ] **Canlıdan önce şart:** Yasal metinler taslak. Müşterinin avukatına ya da mali müşavirine okutulacak; özellikle kişiye özel ve Kendin Tasarla ürünlerde cayma hakkının istisna sayılması hukukçu tarafından teyit edilmeli (`src/lib/legal.ts`)
+- [ ] **Analitik/reklam aracı eklenirse:** Şu an yalnızca sepet için tarayıcı depolaması kullanıldığından çerez onay penceresi yok (gizlilik sayfası bunu açıklıyor). Analitik ya da reklam aracı eklenirse çerez onay banner'ı da eklenecek ve gizlilik metni güncellenecek
 
 ## Notlar
 - Gizli anahtarlar `.env` dosyasında, değerler Bitwarden'da. Git'e girmez.

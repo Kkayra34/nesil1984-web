@@ -13,7 +13,17 @@ export const site = {
     hours: "", // örn. "Pzt–Cmt 10:00–19:00"
     instagram: "", // örn. "https://instagram.com/nesil1984"
   },
+  // Satıcı bilgileri (mesafeli satış sözleşmesi ve KVKK metinlerinde görünür). Müşteriden alınacak.
+  legal: {
+    companyName: "", // ticari unvan, örn. "Nesil Kuyumculuk Ltd. Şti."
+    taxOffice: "",
+    taxNo: "",
+    mersisNo: "", // yoksa boş bırak
+  },
 };
+
+/** Sitenin kök adresi (sitemap, paylaşım kartları, canonical için). Canlıda NEXT_PUBLIC_SITE_URL tanımlı olmalı. */
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, "");
 
 // Teslimat ücretleri (kuruş). Müşteri karar verince güncellenecek; şimdilik kargo ücretsiz.
 export const shipping = {

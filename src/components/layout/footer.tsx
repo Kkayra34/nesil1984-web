@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
+import { legalDocs } from "@/lib/legal";
 import { collections, mainNav, site } from "@/lib/site";
 import { Logo } from "./logo";
 
@@ -61,6 +62,15 @@ export function Footer() {
       <div className="border-t border-krem-50/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-[0.7rem] tracking-wider text-krem-100/50 md:flex-row">
           <p>© {new Date().getFullYear()} NESİL1984. Tüm hakları saklıdır.</p>
+          <ul className="flex flex-wrap justify-center gap-x-5 gap-y-1">
+            {legalDocs().map((d) => (
+              <li key={d.slug}>
+                <Link href={`/yasal/${d.slug}`} className="hover:text-krem-50">
+                  {d.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
           <p className="font-display text-sm italic text-altin-400/80">
             Bir ustalık. Üç nesil. Yeni bir hikâye.
           </p>
