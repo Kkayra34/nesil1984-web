@@ -15,6 +15,19 @@ export const site = {
   },
 };
 
+// Teslimat ücretleri (kuruş). Müşteri karar verince güncellenecek; şimdilik kargo ücretsiz.
+export const shipping = {
+  cargoFeeKurus: 0,
+  /** Bu tutarın üstünde kargo ücretsiz (null = her zaman cargoFeeKurus). */
+  freeCargoOverKurus: null as number | null,
+};
+
+export function shippingFee(delivery: "CARGO" | "PICKUP", subtotalKurus: number) {
+  if (delivery === "PICKUP") return 0;
+  if (shipping.freeCargoOverKurus !== null && subtotalKurus >= shipping.freeCargoOverKurus) return 0;
+  return shipping.cargoFeeKurus;
+}
+
 export const mainNav = [
   { href: "/koleksiyonlar", label: "Koleksiyonlar" },
   { href: "/urunler", label: "Ürünler" },

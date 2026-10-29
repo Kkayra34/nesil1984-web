@@ -1,10 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Menu, ShoppingBag, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useCart } from "@/components/shop/cart-store";
 import { cn } from "@/lib/cn";
 import { mainNav } from "@/lib/site";
 import { Logo } from "./logo";
@@ -20,6 +21,7 @@ export function Header() {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const count = useCart().reduce((n, l) => n + l.qty, 0);
 
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 40));
 
@@ -81,15 +83,30 @@ export function Header() {
             </ul>
           </nav>
 
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="p-2 text-bordo-800 lg:hidden"
-            aria-label="Menüyü aç"
-            aria-expanded={open}
-          >
-            <Menu className="size-6" strokeWidth={1.25} />
-          </button>
+          <div className="flex items-center gap-1">
+            <Link href="/sepet" className="relative p-2 text-bordo-800" aria-label={`Sepet, ${count} ürün`}>
+              <ShoppingBag className="size-6" strokeWidth={1.25} />
+              {count > 0 && (
+                <motion.span
+                  key={count}
+                  initial={{ scale: 0.4 }}
+                  animate={{ scale: 1 }}
+                  className="absolute top-0.5 right-0.5 flex min-w-4 items-center justify-center rounded-full bg-bordo-800 px-1 text-[0.6rem] leading-4 text-krem-50"
+                >
+                  {count}
+                </motion.span>
+              )}
+            </Link>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="p-2 text-bordo-800 lg:hidden"
+              aria-label="Menüyü aç"
+              aria-expanded={open}
+            >
+              <Menu className="size-6" strokeWidth={1.25} />
+            </button>
+          </div>
         </div>
       </header>
 

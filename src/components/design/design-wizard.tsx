@@ -3,8 +3,10 @@
 import { ArrowLeft, ArrowRight, Check, Link2, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { getDesignQuote } from "@/app/(site)/kendin-tasarla/actions";
+import { cart } from "@/components/shop/cart-store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { designQuery, type DesignSelection } from "@/lib/design";
@@ -143,6 +145,16 @@ export function DesignWizard({
     if (link) window.open(link, "_blank", "noopener");
   };
   const hasWhatsapp = whatsappLink() !== null;
+
+  // Sepete sadece seçim gider; fiyat sepette ve ödemede sunucuda yeniden hesaplanır.
+  // "Eklendi" yazısı sadece eklenen tasarım değişmediği sürece görünür.
+  const [addedFor, setAddedFor] = useState<string | null>(null);
+  const added = addedFor === designQuery(selection);
+  const addToCart = () => {
+    if (!chainId || !metal || items.length === 0) return;
+    cart.add({ kind: "DESIGN", chainId, itemIds: items.map((i) => i.id), metal, qty: 1 });
+    setAddedFor(designQuery(selection));
+  };
 
   const stepIndex = steps.findIndex((s) => s.key === step);
 
@@ -337,12 +349,13 @@ export function DesignWizard({
           )}
 
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            {hasWhatsapp ? (
-              <Button type="button" onClick={openWhatsapp} disabled={!quote?.ok}>
-                WhatsApp ile sipariş ver
+            <Button type="button" onClick={addToCart} disabled={!quote?.ok || pending} className="disabled:opacity-50">
+              Sepete ekle
+            </Button>
+            {hasWhatsapp && (
+              <Button type="button" variant="outline" onClick={openWhatsapp} disabled={!quote?.ok}>
+                WhatsApp ile sor
               </Button>
-            ) : (
-              <Button href="/iletisim">Bize ulaşın</Button>
             )}
             <button
               type="button"
@@ -353,9 +366,14 @@ export function DesignWizard({
               {copied ? "Kopyalandı" : "Tasarım bağlantısı"}
             </button>
           </div>
-          <p className="mt-4 text-xs text-bordo-900/50">
-            Online sipariş çok yakında. Tasarımın bağlantısını bize göndererek sipariş verebilirsin.
-          </p>
+          {added && (
+            <p className="mt-4 flex items-center gap-2 text-sm text-bordo-800" role="status">
+              <Check className="size-4 text-altin-600" strokeWidth={2} /> Tasarımın sepete eklendi.
+              <Link href="/sepet" className="underline underline-offset-4 hover:text-altin-700">
+                Sepete git
+              </Link>
+            </p>
+          )}
         </div>
       </div>
     </div>

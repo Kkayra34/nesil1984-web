@@ -56,11 +56,15 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - Not: Tasarım adres çubuğunda (`?zincir=1&parca=2-3-2&ayar=K14`), paylaşılabilir. Sipariş Faz 6'ya kadar WhatsApp/iletişim ile. 13 yeni test
 
 ## Faz 6: Sepet, ödeme, sipariş
-- [ ] Sepet ve teslimat seçimi (kargo / mağazadan teslim)
-- [ ] PayTR entegrasyonu (önce test modu, sonra canlı)
-- [ ] Sipariş kaydı, e-posta bildirimleri
-- [ ] Sipariş takip sayfası (sipariş no + e-posta/telefon)
-- [ ] Admin: sipariş listesi ve durum güncelleme
+- [x] Sepet ve teslimat seçimi (kargo / mağazadan teslim). Sepet tarayıcıda, fiyat her seferinde sunucuda
+- [x] PayTR iFrame entegrasyonu: token, iframe, imzalı bildirim (`/api/paytr/bildirim`). Anahtar yokken geliştirmede ödeme atlanır, canlıda kapalı
+- [x] Sipariş kaydı, e-posta bildirimleri (Resend; anahtar yoksa sunucu kaydına yazılır)
+- [x] Sipariş takip sayfası (sipariş no + e-posta/telefon)
+- [x] Admin: sipariş listesi, detay ve durum güncelleme (müşteriye e-posta)
+- [ ] **Müşteriden bekleniyor:** PayTR mağaza anahtarları; kargo ücreti kararı (şu an ücretsiz, `src/lib/site.ts`)
+- [ ] **Senin yapacağın:** Resend hesabı + alan adı doğrulama, `RESEND_API_KEY` / `EMAIL_FROM` / `SHOP_EMAIL`
+- [ ] PayTR test modunda uçtan uca deneme (site yayında olmalı: bildirimi PayTR'ın sunucusu gönderir). Alan adları/imza sırası PayTR'ın güncel dokümanıyla karşılaştırılmalı
+- Not: Ödemede altın fiyatı değiştiyse sipariş kesilmez, yeni tutar gösterilip tekrar onay istenir. Sipariş sadece imzalı PayTR bildirimiyle "ödendi" olur. 20 yeni test
 
 ## Faz 7: Kişiye özel tasarım, yasal, SEO
 - [ ] Kişiye özel tasarım talep formu (admin'e düşer)
@@ -73,6 +77,12 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [ ] Müşteriye yönetim paneli eğitimi
 - [ ] Yayına alma (3. ödeme)
 - [ ] 1 ay ücretsiz hata düzeltme dönemi
+
+## Sonra yapılacaklar (Faz 6'dan kalanlar)
+- [ ] **Müşteriden:** PayTR mağaza anahtarları (`PAYTR_MERCHANT_ID`, `PAYTR_MERCHANT_KEY`, `PAYTR_MERCHANT_SALT`). Değerler Bitwarden'a
+- [ ] **Müşteriden:** Kargo ücreti kararı. Şimdilik ücretsiz; `src/lib/site.ts` içindeki `shipping` ile değiştirilir
+- [ ] **Senin yapacağın:** Resend hesabı + alan adı doğrulama, `.env`'e `RESEND_API_KEY`, `EMAIL_FROM`, `SHOP_EMAIL` (değerler Bitwarden'a). Bunlar yokken e-postalar gönderilmez, sadece sunucu kaydına yazılır
+- [ ] **Faz 7, canlıdan önce şart:** Mesafeli satış sözleşmesi ve ön bilgilendirme formu metinleri. Ödeme formundaki onay kutusu bunlara atıf yapıyor; metinler yazılınca kutuya bağlantı eklenecek
 
 ## Notlar
 - Gizli anahtarlar `.env` dosyasında, değerler Bitwarden'da. Git'e girmez.

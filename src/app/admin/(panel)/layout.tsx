@@ -10,10 +10,11 @@ export const metadata: Metadata = {
 
 const nav = [
   { href: "/admin", label: "Genel bakış" },
+  { href: "/admin/siparisler", label: "Siparişler" },
   { href: "/admin/urunler", label: "Ürünler" },
   { href: "/admin/parcalar", label: "Tasarım parçaları" },
   { href: "/admin/altin-kuru", label: "Altın kuru" },
-  // Sonraki fazlarda eklenecek: Siparişler, Talepler
+  // Sonraki fazlarda eklenecek: Talepler
 ];
 
 export default async function AdminLayout({ children }: LayoutProps<"/admin">) {

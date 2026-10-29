@@ -20,7 +20,7 @@ export function Footer() {
         <div className="md:col-span-2 md:col-start-6">
           <h3 className="text-[0.65rem] uppercase tracking-[0.3em] text-altin-400">Keşfet</h3>
           <ul className="mt-5 space-y-3 text-sm">
-            {mainNav.map((item) => (
+            {[...mainNav, { href: "/siparis-takip", label: "Sipariş takip" }].map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="text-krem-100/75 transition-colors hover:text-krem-50">
                   {item.label}

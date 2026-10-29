@@ -90,6 +90,7 @@ export default async function ProductPage(props: PageProps<"/urunler/[slug]">) {
               )}
 
               <ProductOptions
+                productId={p.id}
                 name={p.name}
                 code={p.code}
                 priceKurus={p.priceKurus}
@@ -97,9 +98,6 @@ export default async function ProductPage(props: PageProps<"/urunler/[slug]">) {
                 colors={p.colors.map((c) => ({ value: c, label: colorLabel(c) }))}
                 variants={p.variants.map((v) => ({ id: v.id, label: v.label, priceKurus: v.priceKurus }))}
               />
-              <p className="mt-4 text-xs text-bordo-900/50">
-                Online sipariş çok yakında. Şimdilik bizimle iletişime geçerek sipariş verebilirsiniz.
-              </p>
 
               <dl className="mt-8 divide-y divide-krem-200 border-y border-krem-200 text-sm">
                 {details.map(([k, v]) => (
