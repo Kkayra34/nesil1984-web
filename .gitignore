@@ -18,3 +18,12 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Next.js ek
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+*.pem
+
+# Claude yerel ayarları
+.claude/

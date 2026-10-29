@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* NESİL1984 marka paleti: logodaki bordo, krem zemin, sunumdaki bronz/altın tonları */
+@theme inline {
+  --color-bordo-950: #2e0f0f;
+  --color-bordo-900: #3f1515;
+  --color-bordo-800: #5a1e1e;
+  --color-bordo-700: #7a2e2e;
+
+  --color-krem-50: #fcf9f4;
+  --color-krem-100: #f7ede0;
+  --color-krem-200: #eedcc6;
+  --color-krem-300: #e0c7a8;
+
+  --color-altin-400: #c9a06f;
+  --color-altin-500: #b8895a;
+  --color-altin-600: #9c6b4e;
+  --color-altin-700: #7e5239;
+
+  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-jost);
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --background: var(--color-krem-50);
+  --foreground: var(--color-bordo-900);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-altin-400);
+  color: var(--color-bordo-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-altin-500);
+  outline-offset: 3px;
+}

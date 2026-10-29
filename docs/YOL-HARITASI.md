@@ -10,10 +10,11 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [ ] Müşteriden: Kendin Tasarla için şeffaf zeminli zincir/charm görselleri
 
 ## Faz 1: İskelet ve tasarım sistemi
-- [ ] Next.js (TypeScript) + Tailwind kurulumu, proje klasör yapısı
-- [ ] Marka renkleri (bordo / krem / altın), yazı tipleri, bileşenler
-- [ ] Animasyon altyapısı (Framer Motion), sayfa geçişleri
-- [ ] `.env.example`, temel lint ve format ayarları
+- [x] Next.js 16 (TypeScript) + Tailwind 4 kurulumu, proje klasör yapısı
+- [x] Marka renkleri (bordo / krem / altın), yazı tipleri (Cormorant Garamond + Jost), temel bileşenler (Button, Container)
+- [x] Animasyon altyapısı (`motion`): `Reveal` bileşeni, "hareketi azalt" desteği. Sayfa geçişleri Faz 2'de
+- [x] `.env.example`, lint ve derleme temiz
+- Not: `cacheComponents` kapatıldı (veritabanlı sayfalarda gereksiz karmaşıklık). Marka adı Faz 2'de müşterinin logo dosyasıyla gösterilecek (Cormorant'ın eski stil rakamları "1984"ü logodan farklı gösteriyor)
 
 ## Faz 2: Vitrin sayfaları
 - [ ] Ana sayfa (hero animasyonu, koleksiyonlar, güven bandı)
