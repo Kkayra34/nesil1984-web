@@ -3,9 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/db";
 import { products } from "@/db/schema";
+import { cloudinaryReady } from "@/lib/cloudinary";
 import { formatGram } from "@/lib/pricing";
 import { deleteProduct } from "../actions";
 import { ProductForm } from "../product-form";
+import { Photos } from "./photos";
 
 // 3450 → "34,5" (forma geri yazılan sayılar nokta/binlik içermez)
 const plain = (n: number, divisor: number) =>
@@ -20,7 +22,10 @@ export default async function EditProductPage({ params, searchParams }: PageProp
   const [product, categories] = await Promise.all([
     db.query.products.findFirst({
       where: eq(products.id, id),
-      with: { variants: { orderBy: (v, { asc }) => asc(v.sortOrder) } },
+      with: {
+        variants: { orderBy: (v, { asc }) => asc(v.sortOrder) },
+        images: { orderBy: (i, { asc }) => [asc(i.sortOrder), asc(i.id)] },
+      },
     }),
     db.query.categories.findMany({ orderBy: (c, { asc }) => asc(c.sortOrder) }),
   ]);
@@ -61,7 +66,9 @@ export default async function EditProductPage({ params, searchParams }: PageProp
         }}
       />
 
-      <form action={deleteProduct} className="mt-10 border-t border-krem-300 pt-6">
+      <Photos productId={product.id} images={product.images} enabled={cloudinaryReady()} />
+
+      <form action={deleteProduct}className="mt-10 border-t border-krem-300 pt-6">
         <input type="hidden" name="id" value={product.id} />
         <p className="text-xs text-bordo-900/60">Ürünü silersen geri alınamaz. Geçici olarak kaldırmak için “Sitede görünsün” kutusunu kapat.</p>
         <button type="submit" className="mt-3 text-sm text-bordo-700 underline underline-offset-4">

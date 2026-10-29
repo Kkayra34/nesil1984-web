@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/motion/reveal";
-import { ArtFrame } from "@/components/ui/art-frame";
+import { ProductCard } from "@/components/shop/product-card";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
-import { collections, type JewelMotifName } from "@/lib/site";
+import { collectionFromSlug, listProducts } from "@/lib/catalog";
+import { collections } from "@/lib/site";
 
 export function generateStaticParams() {
   return collections.map((c) => ({ slug: c.slug }));
@@ -19,15 +20,13 @@ export async function generateMetadata(props: PageProps<"/koleksiyonlar/[slug]">
   return c ? { title: `${c.name} | NESİL1984`, description: c.description } : {};
 }
 
-// Ürünler Faz 4'te veritabanından gelecek; şimdilik vitrin düzenini gösteren örnek kartlar.
-const previewMotifs: JewelMotifName[] = ["necklace", "ring", "earring", "bracelet", "pendant", "chain"];
-
 export default async function CollectionPage(props: PageProps<"/koleksiyonlar/[slug]">) {
   const { slug } = await props.params;
   const collection = collections.find((c) => c.slug === slug);
   if (!collection) notFound();
 
   const others = collections.filter((c) => c.slug !== slug);
+  const items = await listProducts({ collection: collectionFromSlug(slug) ?? undefined });
 
   return (
     <main>
@@ -40,22 +39,19 @@ export default async function CollectionPage(props: PageProps<"/koleksiyonlar/[s
 
       <section className="bg-krem-50 py-24">
         <Container>
-          <div className="grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-3">
-            {previewMotifs.map((m, i) => (
-              <Reveal key={m} delay={(i % 3) * 0.1}>
-                <div className="group">
-                  <ArtFrame motif={m} tone={i % 2 ? "kum" : "krem"} className="aspect-[4/5]" />
-                  <div className="mt-4 h-3 w-2/3 bg-krem-200" />
-                  <div className="mt-2 h-3 w-1/3 bg-krem-200" />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal>
-            <p className="mt-16 text-center font-display text-2xl italic text-altin-700">
-              Koleksiyonun parçaları çok yakında burada.
-            </p>
-          </Reveal>
+          {items.length > 0 ? (
+            <div className="grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-3">
+              {items.map((p, i) => (
+                <ProductCard key={p.id} product={p} index={i} />
+              ))}
+            </div>
+          ) : (
+            <Reveal>
+              <p className="text-center font-display text-2xl italic text-altin-700">
+                Koleksiyonun parçaları çok yakında burada.
+              </p>
+            </Reveal>
+          )}
         </Container>
       </section>
 
