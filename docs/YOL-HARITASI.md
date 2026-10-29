@@ -34,14 +34,16 @@ Tahmini süre: 8–10 hafta. Her faz bitince commit atılır ve push edilir. Kut
 - [x] Altın kuru ekranı ve genel bakış paneli (uçtan uca denendi)
 - [x] Kategoriler yüklendi (`npm run db:seed`)
 - [ ] **Senin yapacağın:** `npm run admin:create` ile müşterinin admin hesabını oluştur
-- [ ] Ürün ekle/düzenle/sil, ölçü seçenekleri, fotoğraf yükleme (Sonnet ile)
+- [x] Ürün ekle/düzenle/sil, ölçü seçenekleri, fotoğraf yükleme (Cloudinary)
 - [ ] Kendin Tasarla parça yönetimi (Sonnet ile)
 - Not: Prisma'nın yeni sürümü Windows'ta kurulamadığı için Drizzle seçildi
 
 ## Faz 4: Ürün kataloğu
-- [ ] Kategoriler (Kids ve Erkek ayrı vitrin dahil)
-- [ ] Filtreler: ayar, taş, renk, fiyat
-- [ ] Ürün sayfası: renk/ölçü seçimi, güven bilgileri
+- [x] Kategoriler (Kids ve Erkek dahil): `/urunler?kategori=kids`, ana sayfa kartları buraya bağlı
+- [x] Filtreler: ayar, taş, renk, fiyat (adres çubuğundan, JavaScript gerektirmez). 8 test
+- [x] Ürün sayfası: renk/ölçü seçimi, ölçüye göre fiyat, güven bilgileri
+- [x] `/urunler`, `/urunler/[slug]` ve koleksiyon sayfaları veritabanından gelir
+- Not: Online sipariş Faz 6'ya kadar yok; ürün sayfasında WhatsApp / iletişim düğmesi var. Kids ve Erkek için ayrı sayfa yerine kategori filtresi kullanıldı
 
 ## Faz 5: Kendin Tasarla
 - [ ] Parça yönetimi (admin): zincir, charm, ara parça, malzeme

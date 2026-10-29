@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCard } from "@/components/shop/product-card";
+import { ProductFilters } from "@/components/shop/product-filters";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
 import { cn } from "@/lib/cn";
 import { listCategories, listProducts } from "@/lib/catalog";
+import { hasActiveFilter, parseCatalogFilter } from "@/lib/catalog-filter";
 
 export const metadata: Metadata = {
   title: "Ürünler | NESİL1984",
@@ -12,10 +14,12 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage(props: PageProps<"/urunler">) {
-  const { kategori } = await props.searchParams;
-  const active = typeof kategori === "string" ? kategori : undefined;
+  const params = await props.searchParams;
+  const filter = parseCatalogFilter(params);
+  const active = filter.categorySlug;
+  const text = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
-  const [items, cats] = await Promise.all([listProducts({ categorySlug: active }), listCategories()]);
+  const [items, cats] = await Promise.all([listProducts(filter), listCategories()]);
 
   const chip = (isActive: boolean) =>
     cn(
@@ -48,6 +52,8 @@ export default async function ProductsPage(props: PageProps<"/urunler">) {
             </div>
           )}
 
+          <ProductFilters filter={filter} raw={{ min: text(params.min), max: text(params.max) }} />
+
           {items.length > 0 ? (
             <div className="grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-3">
               {items.map((p, i) => (
@@ -56,7 +62,7 @@ export default async function ProductsPage(props: PageProps<"/urunler">) {
             </div>
           ) : (
             <p className="py-16 text-center font-display text-2xl italic text-altin-700">
-              {active ? "Bu kategoride henüz ürün yok." : "Ürünlerimiz çok yakında burada."}
+              {hasActiveFilter(filter) ? "Bu filtreye uyan ürün bulunamadı." : "Ürünlerimiz çok yakında burada."}
             </p>
           )}
         </Container>

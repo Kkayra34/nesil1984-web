@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Gem, Store, Truck } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { ProductOptions } from "@/components/shop/product-options";
 import { ArtFrame } from "@/components/ui/art-frame";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { getProduct } from "@/lib/catalog";
-import { formatGram, formatTRY, METAL_LABELS } from "@/lib/pricing";
-import { categories, whatsappLink } from "@/lib/site";
+import { formatGram, METAL_LABELS } from "@/lib/pricing";
+import { colorLabel, stoneLabel } from "@/lib/product-form";
+import { categories } from "@/lib/site";
 
-const COLOR_LABELS: Record<string, string> = { SARI: "Sarı", BEYAZ: "Beyaz", ROSE: "Roze" };
-const STONE_LABELS: Record<string, string> = {
-  PIRLANTA: "Pırlanta",
-  ZIRKON: "Zirkon",
-  INCI: "İnci",
-  DOGAL: "Doğal taş",
-};
+const trust = [
+  { icon: Gem, label: "Kendi atölyemizde üretim" },
+  { icon: Truck, label: "Türkiye geneli kargo" },
+  { icon: Store, label: "Mağazadan teslim" },
+];
 
 export async function generateMetadata(props: PageProps<"/urunler/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
@@ -35,14 +35,13 @@ export default async function ProductPage(props: PageProps<"/urunler/[slug]">) {
   if (!p) notFound();
 
   const motif = categories.find((c) => c.slug === p.category?.slug)?.motif ?? "necklace";
-  const wa = whatsappLink(`Merhaba, ${p.name} (${p.code}) hakkında bilgi almak istiyorum.`);
 
   const details: [string, string][] = [
     ["Ürün kodu", p.code],
     ["Maden", METAL_LABELS[p.metal]],
     ...(p.pricingMode === "GRAM" && p.weightMg > 0 ? ([["Ağırlık", formatGram(p.weightMg)]] as [string, string][]) : []),
-    ...(p.colors.length ? ([["Renk", p.colors.map((c) => COLOR_LABELS[c] ?? c).join(", ")]] as [string, string][]) : []),
-    ...(p.stones.length ? ([["Taş", p.stones.map((s) => STONE_LABELS[s] ?? s).join(", ")]] as [string, string][]) : []),
+    ...(p.colors.length ? ([["Renk", p.colors.map(colorLabel).join(", ")]] as [string, string][]) : []),
+    ...(p.stones.length ? ([["Taş", p.stones.map(stoneLabel).join(", ")]] as [string, string][]) : []),
   ];
 
   return (
@@ -86,35 +85,21 @@ export default async function ProductPage(props: PageProps<"/urunler/[slug]">) {
             <div className="md:sticky md:top-28 md:self-start">
               <h1 className="font-display text-4xl font-light text-bordo-800 md:text-5xl">{p.name}</h1>
 
-              <p className="mt-5 text-2xl text-bordo-800">
-                {p.priceKurus ? (
-                  <>
-                    {formatTRY(p.priceKurus)}
-                    {p.compareAtKurus && p.compareAtKurus > p.priceKurus && (
-                      <span className="ml-3 text-lg text-bordo-900/40 line-through">{formatTRY(p.compareAtKurus)}</span>
-                    )}
-                  </>
-                ) : (
-                  <span className="text-lg text-bordo-900/70">Fiyat için bize ulaşın</span>
-                )}
-              </p>
-
               {p.description && (
-                <p className="mt-6 whitespace-pre-line leading-relaxed text-bordo-900/70">{p.description}</p>
+                <p className="mt-5 whitespace-pre-line leading-relaxed text-bordo-900/70">{p.description}</p>
               )}
 
-              {p.variants.length > 0 && (
-                <div className="mt-8">
-                  <p className="text-xs uppercase tracking-[0.25em] text-altin-700">Ölçü seçenekleri</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {p.variants.map((v) => (
-                      <span key={v.id} className="border border-krem-300 px-4 py-2 text-sm text-bordo-800">
-                        {v.label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <ProductOptions
+                name={p.name}
+                code={p.code}
+                priceKurus={p.priceKurus}
+                compareAtKurus={p.compareAtKurus}
+                colors={p.colors.map((c) => ({ value: c, label: colorLabel(c) }))}
+                variants={p.variants.map((v) => ({ id: v.id, label: v.label, priceKurus: v.priceKurus }))}
+              />
+              <p className="mt-4 text-xs text-bordo-900/50">
+                Online sipariş çok yakında. Şimdilik bizimle iletişime geçerek sipariş verebilirsiniz.
+              </p>
 
               <dl className="mt-8 divide-y divide-krem-200 border-y border-krem-200 text-sm">
                 {details.map(([k, v]) => (
@@ -125,14 +110,14 @@ export default async function ProductPage(props: PageProps<"/urunler/[slug]">) {
                 ))}
               </dl>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                {wa ? (
-                  <Button href={wa}>WhatsApp ile sor</Button>
-                ) : (
-                  <Button href="/iletisim">Bize ulaşın</Button>
-                )}
-              </div>
-              <p className="mt-4 text-xs text-bordo-900/50">Online sipariş çok yakında. Şimdilik bizimle iletişime geçerek sipariş verebilirsiniz.</p>
+              <ul className="mt-8 grid grid-cols-3 gap-4 text-center">
+                {trust.map((t) => (
+                  <li key={t.label} className="flex flex-col items-center">
+                    <t.icon className="size-6 text-altin-600" strokeWidth={1} />
+                    <span className="mt-2 text-[0.65rem] uppercase tracking-[0.15em] text-bordo-800">{t.label}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
         </div>

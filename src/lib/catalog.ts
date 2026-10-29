@@ -2,6 +2,7 @@ import "server-only";
 import { and, asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { categories, products } from "@/db/schema";
+import { matchesFilter, type CatalogFilter } from "@/lib/catalog-filter";
 import { productPrice, type Rates } from "@/lib/pricing";
 
 // Vitrin sorguları: sadece aktif ürünler, fiyat güncel gram fiyatından hesaplanır.
@@ -36,15 +37,18 @@ function toView(p: Row, rates: Rates) {
   return {
     ...p,
     images: [...p.images].sort((a, b) => a.sortOrder - b.sortOrder),
-    variants: [...p.variants].sort((a, b) => a.sortOrder - b.sortOrder),
-    // Fiyat hesaplanamıyorsa (kur girilmemiş) null: kartta "Fiyat için sorun" gösterilir.
+    // Ölçüye göre ağırlık değişiyorsa her ölçünün kendi fiyatı vardır.
+    variants: [...p.variants]
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((v) => ({ ...v, priceKurus: productPrice(p, rates, v.weightMg) })),
+    // Fiyat hesaplanamıyorsa (kur girilmemiş) null: kartta "Fiyat için bize ulaşın" gösterilir.
     priceKurus: productPrice(p, rates),
   };
 }
 
 export type ProductView = ReturnType<typeof toView>;
 
-export async function listProducts(filter: { collection?: CollectionKey; categorySlug?: string } = {}) {
+export async function listProducts(filter: CatalogFilter & { collection?: CollectionKey } = {}) {
   const [rows, rates] = await Promise.all([
     db.query.products.findMany({
       where: and(
@@ -56,8 +60,8 @@ export async function listProducts(filter: { collection?: CollectionKey; categor
     }),
     getRates(),
   ]);
-  const views = rows.map((p) => toView(p, rates));
-  return filter.categorySlug ? views.filter((p) => p.category?.slug === filter.categorySlug) : views;
+  // Fiyat gram fiyatından hesaplandığı için ayar/taş/renk/fiyat filtreleri burada uygulanır.
+  return rows.map((p) => toView(p, rates)).filter((p) => matchesFilter(p, filter));
 }
 
 export async function getProduct(slug: string) {

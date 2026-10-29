@@ -22,6 +22,10 @@ export const STONE_LABELS: Record<(typeof STONES)[number], string> = {
   DOGAL: "Doğal taş",
 };
 
+/** Veritabanından gelen renk/taş değeri bilinmiyorsa (ör. eski kayıt) ham haliyle gösterilir. */
+export const colorLabel = (c: string) => (COLOR_LABELS as Record<string, string>)[c] ?? c;
+export const stoneLabel = (s: string) => (STONE_LABELS as Record<string, string>)[s] ?? s;
+
 export type ProductInput = {
   code: string;
   slug: string;
